@@ -19,11 +19,11 @@
     <rosparam>
       vicon_host_name: DESKTOP-5I1N12N.local
     </rosparam>
-		<remap from="/vicon/michael" to="/mavros/vision_pose/pose"/>
+		<remap from="/vicon/toby" to="/mavros/vision_pose/pose"/>
 	</node>
 
    <!-- joy node -->
-   <machine name="lab" address="lab.local" env-loader="/home/dev/envs/michael.sh" user="dev"/>
+   <machine name="lab" address="lab.local" env-loader="/home/dev/envs/toby.sh" user="dev"/>
   <node machine="lab" respawn="true" pkg="joy" type="joy_node" name="joy">
     <param name="dev" type="string" value="/dev/input/js0" />
     <param name="deadzone" value="0.02" />
