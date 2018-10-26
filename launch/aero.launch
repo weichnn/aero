@@ -17,9 +17,8 @@
 
    <!-- vicon node -->
 	<node pkg="vicon_stream" type="vicon_stream" name="vicon" output="screen">
-    <rosparam>
-      vicon_host_name: DESKTOP-5I1N12N.local
-    </rosparam>
+    <param name="vicon_host_name" type="string" value="DESKTOP-5I1N12N.local" />
+    <param name="vicon_object_name" type="string" value="$(arg veh)" />
 		<remap from="/vicon/$(arg veh)" to="/mavros/vision_pose/pose"/>
 	</node>
 
