@@ -1,5 +1,5 @@
 <launch>
-  <arg name="veh" />
+  <arg name="veh" default="$(optenv HOSTNAME)"/>
    <!-- fcu node -->
 	<arg name="fcu_url" default="tcp://localhost:5760?ids=1,1" />
 	<include file="$(find mavros)/launch/node.launch">
