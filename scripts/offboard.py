@@ -17,6 +17,9 @@ class AeroOffboard:
     self.OFFBOARD = 2
     self.ARMED = 3
     self.state_mach = self.DISARMED
+    self.SWITCHED = 1
+    self.UNSWITCHED = 0
+    self.state_switch_mode = self.UNSWITCHED
 
   def set_offboard_mode(self):
       done_evt = threading.Event()
@@ -31,6 +34,13 @@ class AeroOffboard:
           else:
               self.state_mach = self.DISARMED
               rospy.loginfo("Drone disarmed!")
+
+          if state.armed:
+              if self.state_switch_mode == self.SWITCHED:
+                  rospy.loginfo("Switch mode: SLAM!")
+              elif self.state_switch_mode == self.UNSWITCHED:
+                  rospy.loginfo("Switch mode: VICON!")
+
 
       try:
           set_mode = rospy.ServiceProxy(mavros.get_topic('set_mode'), SetMode)
@@ -54,6 +64,10 @@ class AeroOffboard:
       command.arming(True)
     elif self.state_mach == self.ARMED and data.buttons[4] == 1:
       command.arming(False)
+    elif self.state_switch_mode == self.UNSWITCHED and data.buttons[7] == 1:
+      self.state_switch_mode = self.SWITCHED
+    elif self.state_switch_mode == self.SWITCHED and data.buttons[8] == 1:
+      self.state_switch_mode = self.UNSWITCHED
 
 
 def main():
