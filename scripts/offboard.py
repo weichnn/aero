@@ -5,7 +5,7 @@ import mavros
 import threading
 from mavros import command
 from mavros_msgs.msg import State
-from mavros_msgs.srv import SetMode, SetModeRequest
+from mavros_msgs.srv import SetMode, SetModeRequest, CommandBool
 from sensor_msgs.msg import Joy
 
 from mavros.utils import *
@@ -66,8 +66,12 @@ class AeroOffboard:
       command.arming(False)
     elif self.state_switch_mode == self.UNSWITCHED and data.buttons[7] == 1:
       self.state_switch_mode = self.SWITCHED
+      doS = rospy.ServiceProxy('doSwitch', CommandBool)
+      doS(True)
     elif self.state_switch_mode == self.SWITCHED and data.buttons[8] == 1:
       self.state_switch_mode = self.UNSWITCHED
+      doS = rospy.ServiceProxy('doSwitch', CommandBool)
+      doS(False)
 
 
 def main():
